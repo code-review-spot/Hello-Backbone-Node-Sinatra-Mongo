@@ -1,21 +1,26 @@
 var readFixtures = function() {
-  return jasmine.getFixtures().proxyCallTo_('read', arguments);
+  return jasmine.getFixtures()
+    .proxyCallTo_('read', arguments);
 };
 
 var preloadFixtures = function() {
-  jasmine.getFixtures().proxyCallTo_('preload', arguments);
+  jasmine.getFixtures()
+    .proxyCallTo_('preload', arguments);
 };
 
 var loadFixtures = function() {
-  jasmine.getFixtures().proxyCallTo_('load', arguments);
+  jasmine.getFixtures()
+    .proxyCallTo_('load', arguments);
 };
 
 var setFixtures = function(html) {
-  jasmine.getFixtures().set(html);
+  jasmine.getFixtures()
+    .set(html);
 };
 
 var sandbox = function(attributes) {
-  return jasmine.getFixtures().sandbox(attributes);
+  return jasmine.getFixtures()
+    .sandbox(attributes);
 };
 
 var spyOnEvent = function(selector, eventName) {
@@ -50,7 +55,7 @@ jasmine.Fixtures.prototype.read = function() {
   var htmlChunks = [];
 
   var fixtureUrls = arguments;
-  for(var urlCount = fixtureUrls.length, urlIndex = 0; urlIndex < urlCount; urlIndex++) {
+  for (var urlCount = fixtureUrls.length, urlIndex = 0; urlIndex < urlCount; urlIndex++) {
     htmlChunks.push(this.getFixtureHtml_(fixtureUrls[urlIndex]));
   }
 
@@ -62,26 +67,29 @@ jasmine.Fixtures.prototype.clearCache = function() {
 };
 
 jasmine.Fixtures.prototype.cleanUp = function() {
-  jQuery('#' + this.containerId).remove();
+  jQuery('#' + this.containerId)
+    .remove();
 };
 
 jasmine.Fixtures.prototype.sandbox = function(attributes) {
   var attributesToSet = attributes || {};
-  return jQuery('<div id="sandbox" />').attr(attributesToSet);
+  return jQuery('<div id="sandbox" />')
+    .attr(attributesToSet);
 };
 
 jasmine.Fixtures.prototype.createContainer_ = function(html) {
   var container;
-  if(html instanceof jQuery) {
+  if (html instanceof jQuery) {
     container = jQuery('<div id="' + this.containerId + '" />');
     container.html(html);
   } else {
     container = '<div id="' + this.containerId + '">' + html + '</div>'
   }
-  jQuery('body').append(container);
+  jQuery('body')
+    .append(container);
 };
 
-jasmine.Fixtures.prototype.getFixtureHtml_ = function(url) {  
+jasmine.Fixtures.prototype.getFixtureHtml_ = function(url) {
   if (typeof this.fixturesCache_[url] == 'undefined') {
     this.loadFixtureIntoCache_(url);
   }
@@ -100,7 +108,7 @@ jasmine.Fixtures.prototype.loadFixtureIntoCache_ = function(relativeUrl) {
       self.fixturesCache_[relativeUrl] = data;
     },
     error: function(jqXHR, status, errorThrown) {
-        throw Error('Fixture could not be loaded: ' + url + ' (status: ' + status + ', message: ' + errorThrown.message + ')');
+      throw Error('Fixture could not be loaded: ' + url + ' (status: ' + status + ', message: ' + errorThrown.message + ')');
     }
   });
 };
@@ -113,11 +121,15 @@ jasmine.Fixtures.prototype.proxyCallTo_ = function(methodName, passedArguments) 
 jasmine.JQuery = function() {};
 
 jasmine.JQuery.browserTagCaseIndependentHtml = function(html) {
-  return jQuery('<div/>').append(html).html();
+  return jQuery('<div/>')
+    .append(html)
+    .html();
 };
 
 jasmine.JQuery.elementToString = function(element) {
-  return jQuery('<div />').append(element.clone()).html();
+  return jQuery('<div />')
+    .append(element.clone())
+    .html();
 };
 
 jasmine.JQuery.matchersClass = {};
@@ -125,7 +137,7 @@ jasmine.JQuery.matchersClass = {};
 (function(namespace) {
   var data = {
     spiedEvents: {},
-    handlers:    []
+    handlers: []
   };
 
   namespace.events = {
@@ -133,7 +145,8 @@ jasmine.JQuery.matchersClass = {};
       var handler = function(e) {
         data.spiedEvents[[selector, eventName]] = e;
       };
-      jQuery(selector).bind(eventName, handler);
+      jQuery(selector)
+        .bind(eventName, handler);
       data.handlers.push(handler);
     },
 
@@ -143,12 +156,12 @@ jasmine.JQuery.matchersClass = {};
 
     cleanUp: function() {
       data.spiedEvents = {};
-      data.handlers    = [];
+      data.handlers = [];
     }
   }
 })(jasmine.JQuery);
 
-(function(){
+(function() {
   var jQueryMatchers = {
     toHaveClass: function(className) {
       return this.actual.hasClass(className);
@@ -211,10 +224,11 @@ jasmine.JQuery.matchersClass = {};
     },
 
     toContain: function(selector) {
-      return this.actual.find(selector).size() > 0;
+      return this.actual.find(selector)
+        .size() > 0;
     },
 
-    toBeDisabled: function(selector){
+    toBeDisabled: function(selector) {
       return this.actual.is(':disabled');
     },
 
@@ -223,7 +237,7 @@ jasmine.JQuery.matchersClass = {};
       var events = this.actual.data("events");
       return events && events[eventName].length > 0;
     },
-    
+
     // tests the existence of a specific event binding + handler
     toHandleWith: function(eventName, eventHandler) {
       var stack = this.actual.data("events")[eventName];
@@ -262,7 +276,7 @@ jasmine.JQuery.matchersClass = {};
     };
   };
 
-  for(var methodName in jQueryMatchers) {
+  for (var methodName in jQueryMatchers) {
     bindMatcher(methodName);
   }
 })();
@@ -275,7 +289,7 @@ beforeEach(function() {
         return [
           "Expected event " + this.actual + " to have been triggered on" + selector,
           "Expected event " + this.actual + " not to have been triggered on" + selector
-        ];
+          ];
       };
       return jasmine.JQuery.events.wasTriggered(selector, this.actual);
     }
@@ -283,6 +297,7 @@ beforeEach(function() {
 });
 
 afterEach(function() {
-  jasmine.getFixtures().cleanUp();
+  jasmine.getFixtures()
+    .cleanUp();
   jasmine.JQuery.events.cleanUp();
 });

@@ -10,16 +10,17 @@
       "alwaysThrew": "toHaveAlwaysThrown"
     },
 
-  getMatcherFunction = function(sinonName) {
-    return function() {
-      var sinonProperty = this.actual[sinonName];
-      return (typeof sinonProperty === 'function') ? sinonProperty.apply(this.actual, arguments) : sinonProperty;
+    getMatcherFunction = function(sinonName) {
+      return function() {
+        var sinonProperty = this.actual[sinonName];
+        return (typeof sinonProperty === 'function') ? sinonProperty.apply(this.actual, arguments) : sinonProperty;
+      };
     };
-  };
 
-  while(i--) {
+  while (i--) {
     var sinonName = spyMatchers[i],
-      matcherName = "toHaveBeen" + sinonName.charAt(0).toUpperCase() + sinonName.slice(1);
+      matcherName = "toHaveBeen" + sinonName.charAt(0)
+        .toUpperCase() + sinonName.slice(1);
 
     spyMatcherHash[matcherName] = getMatcherFunction(sinonName);
   };

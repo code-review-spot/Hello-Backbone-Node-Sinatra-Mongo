@@ -1,7 +1,7 @@
 /*
  * GET index
  */
-exports.index = function(repository, req, res){
+exports.index = function(repository, req, res) {
   repository.findAll(function(err, docs) {
     if (err) res.json(err, 500);
     else res.json(docs);
@@ -13,7 +13,7 @@ exports.index = function(repository, req, res){
  * Creates new entity
  */
 exports.create = function(repository, req, res) {
-  repository.save(req.body, function(err){
+  repository.save(req.body, function(err) {
     if (err) res.json(err, 500);
     else res.send(req.body);
   });
@@ -24,7 +24,7 @@ exports.create = function(repository, req, res) {
  * Updates existing entity
  */
 exports.update = function(repository, req, res) {
-  repository.update(req.body, function(err){
+  repository.update(req.body, function(err) {
     if (err) res.json(err, 500);
     else res.send(req.body);
   });
@@ -35,9 +35,8 @@ exports.update = function(repository, req, res) {
  * Deletes existing entity
  */
 exports.delete = function(repository, req, res) {
-  repository.delete(req.params.id, function(err){
+  repository.delete(req.params.id, function(err) {
     if (err) res.json(err, 500);
     else res.send(req.body);
   });
 };
-

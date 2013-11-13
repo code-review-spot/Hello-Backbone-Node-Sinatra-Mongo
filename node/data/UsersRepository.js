@@ -1,5 +1,7 @@
-var db = require("../data/_dbConfig").db
-  , CommonRepository = require("./CommonRepository").CommonRepository;
+var db = require("../data/_dbConfig")
+  .db,
+  CommonRepository = require("./CommonRepository")
+    .CommonRepository;
 
 UsersRepository = function() {};
 UsersRepository.prototype = new CommonRepository;

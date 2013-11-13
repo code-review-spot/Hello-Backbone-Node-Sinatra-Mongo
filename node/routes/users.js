@@ -1,11 +1,12 @@
 // Repositories
-var repository = require("../data/UsersRepository").Repository
-  , commons = require("./commons");
+var repository = require("../data/UsersRepository")
+  .Repository,
+  commons = require("./commons");
 
 /*
  * GET users
  */
-exports.index = function(req, res){
+exports.index = function(req, res) {
   commons.index(repository, req, res);
 };
 
@@ -40,11 +41,11 @@ exports.delete = function(req, res) {
  */
 exports.new = function(req, res) {
   var newUser = {
-      email : "john.doe@example.com"
+    email: "john.doe@example.com"
   }
 
   // using repository
-  repository.save(newUser, function(err){
+  repository.save(newUser, function(err) {
     if (err) res.json(err, 500);
     else res.redirect("/users");
   });
